@@ -1,0 +1,65 @@
+#chapter 5 exercise
+
+#read in the data:
+
+#set the file path for the dta file
+file_path<-"/home/appertjt/Documents/Grad School/econometrics fall/Code/chap5/CH5_HW.dta"
+file_path2<-"/home/appertjt/Documents/Grad School/econometrics fall/Code/chap5/CH5_HW.csv"
+
+#import the foreign package
+#install.packages("readstata13")
+library(foreign)
+library("readstata13")
+
+#read the file in
+
+data<-read.dta13(file_path)
+
+#df1<-subset(data, age != "Less than 1 year old")
+
+#save the filtered file as a csv
+write.csv(df1, file=file_path2)
+
+#load data into a dataframe
+
+df1.d<-data.frame(df1)
+#convert all columns to numeric values
+df1.d<-transform(df1.d, incwage=as.numeric(incwage), uhrswork=as.numeric(uhrswork), age=as.numeric(age))
+
+#drop columns where wage == 999999 AND where wage>0
+#Note, we should be able to do this in one step.  Need to look at filtering by multiple arguments
+
+df1.d<-df1.d[df1.d["incwage"]<999000,]
+df1.d<-df1.d[df1.d['incwage']>0,]
+
+#assign the independent and dependent variables
+
+y<-as.matrix(df1.d["incwage"])
+x<-as.matrix(df1.d["uhrswork"])
+
+#create a column of constants
+cons<-matrix(nrow=nrow(x), ncol=1,1)
+xmat<-cbind(x, cons)
+
+#find betaHat
+
+betaHat<-(solve(t(xmat)%*%xmat))%*%(t(xmat)%*%y)
+betaHat
+
+#get the predicted y values
+
+yHat=xmat%*%betaHat
+
+#find the error term
+
+epsilonHat=y-yHat
+sigmaHat<-(t(epsilonHat)%*%epsilonHat)/(nrow(x)-ncol(x))
+
+sigmaHat
+
+value1<-(t(epsilonHat)%*%epsilonHat)
+value2<-nrow(x)
+print (value2)
+value3<-ncol(x)
+
+
