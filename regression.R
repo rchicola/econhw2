@@ -29,7 +29,7 @@ df1.d<-transform(df1.d, incwage=as.numeric(incwage), uhrswork=as.numeric(uhrswor
 #drop columns where wage == 999999 AND where wage>0
 #Note, we should be able to do this in one step.  Need to look at filtering by multiple arguments
 
-df1.d<-df1.d[df1.d["incwage"]<999000,]
+df1.d<-df1.d[df1.d["incwage"]<900000,]
 df1.d<-df1.d[df1.d['incwage']>0,]
 
 #assign the independent and dependent variables
@@ -44,22 +44,23 @@ xmat<-cbind(x, cons)
 #find betaHat
 
 betaHat<-(solve(t(xmat)%*%xmat))%*%(t(xmat)%*%y)
-betaHat
+print (betaHat)
 
 #get the predicted y values
-
 yHat=xmat%*%betaHat
 
-#find the error term
-
+#get the residuals
 epsilonHat=y-yHat
+
+#get sigmaHat
 sigmaHat<-(t(epsilonHat)%*%epsilonHat)/(nrow(x)-ncol(x))
 
-sigmaHat
+##problems start here
+se=sigmaHat[1]*solve(t(xmat)%*%(xmat))
 
-value1<-(t(epsilonHat)%*%epsilonHat)
-value2<-nrow(x)
-print (value2)
-value3<-ncol(x)
+print(sqrt(diag(se)))
+varBeta=solve(t(xmat)%*%xmat)
+print (varBeta)
 
-
+reg = lm(incwage ~ uhrswork, data=df1.d)
+summary(reg)

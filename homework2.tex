@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{amsmath}
 
 \begin{document}
 
@@ -14,13 +15,13 @@
 
 We decided to directly import the dta file into R in order to complete all the data munging and statistical analysis.  Standard R libraries are unable to read stata 13 files.  We installed the package "readstat13" which allowed us to directly import the file into R.
 \\
-\\
+
 After importing the data we converted it to a dataframe.  After converting to the dataframe we converted all columns to numeric data and removed any rows where the wages were equal to zero or greater than ninety-nine million.  
 \\
-\\
+
 The three componenets of the standard estimator are the following:
 \\
-\\
+
 
 \begin{equation}
 \hat{\sigma^2}=\frac{\hat{\epsilon'} \hat{\epsilon}}{N-k}:
@@ -29,17 +30,24 @@ The three componenets of the standard estimator are the following:
 We found the following values for these components of the standard error using R:
 \\
 \begin{equation}
-\hat{\sigma^2}=184.0839
+\hat{\sigma^2}=3,211,034,129
 \end{equation}
 \begin{equation}
-\hat{\epsilon'}\hat{\epsilon}=49,462,805
+\hat{\epsilon'}\hat{\epsilon}=4.990559e+15
 \end{equation}
 \begin{equation}
-N=268,698
+N-k=1,527,729
 \end{equation}
 \begin{equation}
-k=1
+(X'X)^{-1}=
+\begin{bmatrix}
+
+3.981391e-09 & -1.565183e-07 \\
+-1.565183e-07 & 6.807685e-06
+\end{bmatrix}
+
 \end{equation}
 
+Based on these calculations we find that the standard error on the constant is 147.850 and the standard error on the X values is 3.576.
 
 \end{document}
