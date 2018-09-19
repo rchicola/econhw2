@@ -44,7 +44,7 @@ xmat<-cbind(x, cons)
 #find betaHat
 
 betaHat<-(solve(t(xmat)%*%xmat))%*%(t(xmat)%*%y)
-print (betaHat)
+
 
 #get the predicted y values
 yHat=xmat%*%betaHat
@@ -57,10 +57,9 @@ sigmaHat<-(t(epsilonHat)%*%epsilonHat)/(nrow(x)-ncol(x))
 
 ##problems start here
 se=sigmaHat[1]*solve(t(xmat)%*%(xmat))
-
+print (solve(t(xmat)%*%(xmat)))
 print(sqrt(diag(se)))
-varBeta=solve(t(xmat)%*%xmat)
-print (varBeta)
 
+#run the standard regression to check our work.
 reg = lm(incwage ~ uhrswork, data=df1.d)
 summary(reg)
