@@ -1,0 +1,63 @@
+*Input and print Matrices for Dr. Sorensen's HW2 Chapter 4 question 2
+matrix A = (2,1,5\1,2,5)
+matrix list A
+matrix B = (1,0\0,1)
+matrix list B
+matrix C = (2,2\1,1)
+matrix list C
+matrix D = (2,2,3\1,1,5\1,4,5)
+matrix list D
+matrix E = (6,3,7\3,4,8\3,7,5)
+matrix list E
+
+
+*Part A What is B^-1 ?(Inverse of B)
+matrix Binvsym = invsym(B)
+matrix list Binvsym
+
+*Part B What is C^-1 ? (Inverse of C)
+
+*matrix Cinvsym= invsym(C)
+*matrix list Cinvsym
+*Attempting to run Cinvsym results in "Matrix not symmetric" error 
+*this is because there is no inverse as the Determinant =0 =(2*1)-(2*1)
+
+*Part C What is A' (A Transpose)?
+matrix ATrans = A'
+matrix list ATrans
+
+*Part D What is B' (B Transpose)?
+matrix BTrans = B'
+matrix list BTrans
+
+*Part E What is C' (C Transpose)?
+matrix CTrans = C'
+matrix list CTrans
+
+*Part F What is A x C ?
+*matrix AtimesC = A * C
+*matrix list AtimesC
+*Attempting to run AtimesC results in "conformability error" A s a 2x3 and C s 
+*a 2x2 so we would have to take transpose of A first to make conformable to 
+*which is what part G asks next.
+
+*Part G What is A'xC?
+matrix ATranstimesC = A'*C
+matrix list ATranstimesC
+
+*Part H What is BxC ?
+matrix BtimesC = B*C
+matrix list BtimesC
+
+*Part I What is B+C?
+matrix BplusC = B+C
+matrix list BplusC
+
+*Part J What is D^-1 D inverse? You can use software for this
+matrix Dinverse = inv(D)
+matrix list Dinverse
+*invsym could not be used because not symmetric (D not equal to D transpose)
+
+*Part K What is DxE? You can use software for this
+matrix DtimesE = D*E
+matrix list DtimesE
