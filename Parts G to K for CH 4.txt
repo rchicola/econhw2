@@ -1,0 +1,152 @@
+Part G. What is A'*C?\\
+
+In this case A' gives us a 3x2 matrix along with the 2x2 matrix of C, so we can get a conformable 3x2 matrix. Multiplying each row of A' by the column of C, our resulting A'xC 3x2 matrix would be:\\
+
+$ A'C= \left( \begin{smallmatrix} 5&5\\4&4\\15&15 \end{smallmatrix} \right)$ \\
+
+In Stata entering the following would confirm our results.\\
+*matrix ATranstimesC = A'*C\\
+*matrix list ATranstimesC\\
+
+Part H What is BxC?\\
+
+Since both are 2x2 matrices, we would get a resulting 2x2 as well. Multiplying the rows by columns would yield:\\
+
+$ BxC= \left(\begin{smallmatrix} 2&2\\1&1 \end{smallmatrix} \right)$\\
+
+In Stata we would enter the following to confirm our results:\\
+matrix BtimesC = B*C\\
+matrix list BtimesC\\
+
+Part I What is B+C?\\
+
+Since B and C are the same dimensions, we can add the elements to yield our resulting matrix:	$(B+C)= \left( \begin{smallmatrix} 3&2\\1&2 \end{smallmatrix} \right)$\\
+
+Part J What is $D^-1$? 
+
+Given D, if we were to find the 3x3 inverse by hand, one approach a we could do:
+1. Find the determinant and check if nonzero. If zero we are done, if nonzero proceed to 2.
+2. Set up a co-factor matrix of minors
+3.Find every minor determinant in the cofactor matrix
+4. Take the transpose of the co-factor to get the Adjunct matrix 
+5. Apply the $1/|A|$ to the cofactor matrix if practical.
+
+For Step 1: $|D|=2 \left( \begin{smallmatrix} 1&5\\ 4&5 \end{smallmatrix} \right)-2 \left( \begin{smallmatrix}1&5\\1&5 \end{smallmatrix} \right) +3 \left( \begin{smallmatrix} 1&1\\1&4 \end{smallmatrix} \right) = -30-0+9= -21$\\
+
+For Step 2:\\
+
+\[
+\left[ 
+\begin{array}{c@{}c@{}c}
+ \left|\begin{array}{cc}
+         1 & 5 \\
+         4 & 5 \\
+  \end{array}\right| & \left|\begin{array}{cc}
+        1 & 5 \\
+         1 & 5 \\
+  \end{array}\right| & \left|\begin{array}{cc}
+         1 & 1 \\
+         1 & 4 \\
+  \end{array}\right| \\
+  \\
+  
+  \left|\begin{array}{cc}
+         2 & 3 \\
+         4 & 5 \\
+  \end{array}\right| & \left|\begin{array}{cc}
+         2 & 3 \\
+         1 & 5 \\
+  \end{array}\right| & \left|\begin{array}{cc}
+         2 & 2 \\
+         1 & 4 \\
+  \end{array}\right|\\
+  \\
+  
+\left|\begin{array}{cc}
+         2 & 3 \\
+         1 & 5 \\
+  \end{array}\right| & \left|\begin{array}{cc}
+         2 & 3 \\
+         1 & 5 \\
+  \end{array}\right| & \left| \begin{array}{cc}
+                                   2 & 2 \\
+                                   1 & 1 \\
+                                  \end{array}\right| \\
+\end{array}\right]
+\]    
+\\
+
+From here we can take the determinant of every minor in the cofactor matrix above and then apply the alternating (+) or (-) to each determinant element that we calculate (Then sign alternation was kept outside each value to demonstrate the alternation pattern, but we would normally apply it). Then we will get the consolidated cofactor matrix of D:\\
+
+
+\[
+\left[
+\begin{array}{ccc}
+-15&-0&+3\\
+--2&+7&-6\\
++7&-7&+0
+\end{array} 
+\right]
+ \]\\
+
+We would then take the transpose of this to get the adjunct of D
+
+\[C'_D=
+\left[
+\begin{array}{ccc}
+-15&2&7\\
+0&7&7\\
+-3&6&0
+\end{array} 
+\right]
+ \]\\
+
+We then multiply the adjunct by one of the determinant we previously calculated to get our inverse. We will not expand it further only because it looks less clean distributing the one over determinant over the adjunct. Checking in wolfram alpha, it is identical except that the (-) in the determinant is distributed.
+
+\[D^-1=\frac{1}{-21}
+\left[
+\begin{array}{ccc}
+-15&2&7\\
+0&7&7\\
+-3&6&0
+\end{array} 
+\right]
+ \]\\
+
+This inverse could be replicated in Stata by the below code:\\
+
+matrix Dinverse = inv(D)\\
+matrix list Dinverse\\
+*invsym could not be used because not symmetric (D not equal to D transpose)\\
+
+Needless to say (but nonetheless said), using stata is quicker.\\
+
+Part K What is DxE=F? YOu can use software or this.\\
+
+Since D and E are both 3x3, we can multiply them using the row by column method where we sum the products of the RowD by ColE elements. \\
+
+\[DxE=F=
+\left[
+\begin{array}{ccc}
+(12+6+9)&(6+8+21)&(14+16+15)\\
+(6+3+15)&(3+4+35)&(7+8+25)\\
+(6+12+15)&(+16+35]&(7+32+25)
+\end{array} 
+\right]
+ \]\\
+
+This reduces to:
+
+\[DxE=F=
+\left[
+\begin{array}{ccc}
+27&35&45\\
+24&2&40\\
+33&54&64
+\end{array} 
+\right]
+ \]\\
+
+We could also replicate this in stata by:\\
+matrix DtimesE = D*E\\
+matrix list DtimesE\\
